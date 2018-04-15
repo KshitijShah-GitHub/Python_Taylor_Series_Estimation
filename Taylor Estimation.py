@@ -23,7 +23,7 @@ def estimate_sin(val: Tuple[Decimal, int]) -> Decimal:
     """
     Input: Tuple of x value in Decimal format and digits of precision > 0  (int)
     Use Taylor Series to estimate sin(x) to n digits of precision. To prevent
-    over precise estimation, use Alternating Series Test to determine whether
+    over precise estimation, use facts of Taylor Series to determine whether
     current partial sum is accurate enough, return Decimal format with expected
     precision. The Taylor series works for all x in the set of Reals.
 
@@ -59,7 +59,7 @@ def estimate_cos(val: Tuple[Decimal, int]) -> Decimal:
     """
     Input: Tuple of x value in Decimal format and digits of precision > 0  (int)
     Use Taylor Series to estimate cos(x) to n digits of precision. To prevent
-    over precise estimation, use Alternating Series Test to determine whether
+    over precise estimation, use facts about Taylor Series to determine whether
     current partial sum is accurate enough, return Decimal format with expected
     precision. The Taylor series works for all x in the set of Reals.
 
@@ -95,7 +95,7 @@ def estimate_e(val: Tuple[Decimal, int]) -> Decimal:
     """
     Input: Tuple of x value in Decimal format and digits of precision > 0  (int)
     Use Taylor Series to estimate e^x to n digits of precision. To prevent
-    over precise estimation, use Alternating Series Test to determine whether
+    over precise estimation, use facts about Taylor Series to determine whether
     current partial sum is accurate enough, return Decimal format with expected
     precision. The Taylor series works for all x in the set of Reals.
 
