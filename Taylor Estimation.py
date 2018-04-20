@@ -14,9 +14,9 @@ from math import pi
 factorial_dict = {0: 1, 1: 1, 2: 2}  # global var so repeated calls of different
 # funcs don't redundantly calc factorials since TSeries uses factorials A LOT
 
-sin_dict: Dict[int, Decimal] = {}  # will contain {precision: value} to prevent
-cos_dict: Dict[int, Decimal] = {}  # calculating already calced vals, which is
-e_dict: Dict[int, Decimal] = {}  # is always cool to have
+sin_dict: Dict[int, Decimal] = {}  # will contain {precision: value} to prevent-
+cos_dict: Dict[int, Decimal] = {}  # calculating already calculated vals
+e_dict: Dict[int, Decimal] = {} 
 
 
 def estimate_sin(val: Tuple[Decimal, int]) -> Decimal:
@@ -30,28 +30,28 @@ def estimate_sin(val: Tuple[Decimal, int]) -> Decimal:
     >>> estimate_sin((Decimal(pi), 5))
     0.00000
     """
-    x = Decimal(val[0])
+    x = Decimal(val[0])  # unpack input tuple for easy access
     precision = val[1]
-    getcontext().prec = precision * 2
-
-    if precision in sin_dict:
+    getcontext().prec = precision * 2  # extra precision for preserving accuracy 
+    
+    if precision in sin_dict:  # if already calculated, return previous value
         return sin_dict[precision]
-
     else:
-        kth_sum = Decimal(0)
-        k_minus_1_sum = Decimal("-inf")
+        kth_sum = Decimal(0)  # current sum and previous sum to keep track -
+        k_minus_1_sum = Decimal("-inf")  # of how much each iteration changes values
         i = 0
-        precision_test = Decimal(1) / Decimal(10 ** precision)
-        while abs(kth_sum - k_minus_1_sum) >= precision_test:
-            k_minus_1_sum = kth_sum
+        precision_test = Decimal(1) / Decimal(10 ** precision)  # this tests how much-
+        while abs(kth_sum - k_minus_1_sum) >= precision_test:   # each iteration changes-
+            k_minus_1_sum = kth_sum                             # sum so we know when to stop  
             kth_sum = 0
             i += 1
-            for j in range(i):
-                a = Decimal(2 * j) + Decimal(1)
-                kth_sum += \
+            for j in range(i):  # compute i sums, if its accurate enough, return, else increase i
+                a = Decimal(2 * j) + Decimal(1)  # handy variable, want to compute only odd powers
+                kth_sum += \  # 
                     (Decimal(-1) ** j * Decimal(x ** a)) / Decimal(factorial(a))
+                    
         sin_dict[precision] = (round(kth_sum, precision))
-
+        
     return sin_dict[precision]
 
 
@@ -72,7 +72,6 @@ def estimate_cos(val: Tuple[Decimal, int]) -> Decimal:
 
     if precision in cos_dict:
         return cos_dict[precision]
-
     else:
         kth_sum = Decimal(0)
         k_minus_1_sum = Decimal("-inf")
@@ -86,6 +85,7 @@ def estimate_cos(val: Tuple[Decimal, int]) -> Decimal:
                 a = Decimal(2 * j)
                 kth_sum += \
                     (Decimal(-1) ** j * Decimal(x ** a)) / Decimal(factorial(a))
+                    
         cos_dict[precision] = (round(kth_sum, precision))
 
     return cos_dict[precision]
@@ -108,7 +108,6 @@ def estimate_e(val: Tuple[Decimal, int]) -> Decimal:
 
     if precision in e_dict:
         return e_dict[precision]
-
     else:
         kth_sum = 0
         k_minus_1_sum = Decimal("-inf")
@@ -120,6 +119,7 @@ def estimate_e(val: Tuple[Decimal, int]) -> Decimal:
             i += 1
             for j in range(i):
                 kth_sum += Decimal(x ** j) / Decimal(factorial(j))
+                
         e_dict[precision] = Decimal(round(kth_sum, precision))
 
     return e_dict[precision]
@@ -133,7 +133,6 @@ def factorial(n: int) -> int:
     """
     if n in factorial_dict:
         return factorial_dict[n]  # m e m o i z e  m e
-
     else:
         factorial_dict[n] = n * factorial(n - 1)
 
@@ -152,7 +151,6 @@ def get_input() -> Tuple[Decimal, int]:
         x = Decimal(input("Pick a value for x: "))
         n = int(float(input("How many decimal places do you need to "
                             "estimate to? (int value): ")))
-
         if n <= 0:
             print("Make sure precision is more than 0 and its an integer")
 
@@ -175,26 +173,22 @@ if __name__ == "__main__":
         while not input_flag:
             sel = input(in_str)
             input_flag = False
-            if sel == '4' or sel == 'Exit':
+            if sel == '4' or sel.lower() == 'exit':
                 print("Thanks for using my program :)")
                 input_flag = True
                 exit_flag = True
-
             elif sel == '1' or sel == 'sin(x)' or sel == 'sinx' or sel == 'sin':
                 input_flag = True
                 print("Estimating sin(x):")
                 print(estimate_sin(get_input()))
-
             elif sel == '2' or sel == 'cos(x)' or sel == 'cosx' or sel == 'cos':
                 input_flag = True
                 print("Estimating cos(x):")
                 print(estimate_cos(get_input()))
-
             elif sel == '3' or sel == 'e^x' or sel == 'e(x)' or sel == 'e':
                 input_flag = True
                 print("Estimating e^x:")
                 print(estimate_e(get_input()))
-
             else:
                 print("invalid input, try a number (1 to 4) or the name "
                       "of the function like 'sin', 'cos' or 'e'\n")
