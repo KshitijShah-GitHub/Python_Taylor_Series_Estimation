@@ -47,7 +47,7 @@ def estimate_sin(val: Tuple[Decimal, int]) -> Decimal:
             i += 1
             for j in range(i):  # compute i sums, if its accurate enough, return, else increase i
                 a = Decimal(2 * j) + Decimal(1)  # handy variable, want to compute only odd powers
-                kth_sum += \  # 
+                kth_sum += \ 
                     (Decimal(-1) ** j * Decimal(x ** a)) / Decimal(factorial(a))
                     
         sin_dict[precision] = (round(kth_sum, precision))
